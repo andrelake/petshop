@@ -1,10 +1,9 @@
 package com.andre.petshop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +13,9 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    @ManyToMany(mappedBy = "categoriasList")
+    private List<Produto> produtosList = new ArrayList<>();
 
     public Categoria() {
     }
@@ -37,6 +39,14 @@ public class Categoria implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Produto> getProdutosList() {
+        return produtosList;
+    }
+
+    public void setProdutosList(List<Produto> produtosList) {
+        this.produtosList = produtosList;
     }
 
     @Override
