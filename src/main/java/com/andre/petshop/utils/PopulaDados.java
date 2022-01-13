@@ -1,9 +1,7 @@
 package com.andre.petshop.utils;
 
-import com.andre.petshop.domain.Categoria;
-import com.andre.petshop.domain.Produto;
-import com.andre.petshop.repository.CategoriaRepository;
-import com.andre.petshop.repository.ProdutoRepository;
+import com.andre.petshop.domain.*;
+import com.andre.petshop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +16,15 @@ public class PopulaDados {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private PetRepository petRepository;
+
+    @Autowired
+    private RacaRepository racaRepository;
+
+    @Autowired
+    private EspecieRepository especieRepository;
 
     @PostConstruct
     public void cadastrar() {
@@ -41,5 +48,20 @@ public class PopulaDados {
 
         categoriaRepository.saveAll(Arrays.asList(c1, c2,c3));
         produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4));
+
+        Especie s1 = new Especie(null, "Cachorro");
+        Especie s2 = new Especie(null, "Gato");
+
+        Raca rac1 = new Raca(null, "Shitzu");
+        Raca rac2 = new Raca(null, "Akita");
+        Raca rac3 = new Raca(null, "Persa");
+
+        Pet pet1 = new Pet(null, "John", s1, rac1, 6);
+        Pet pet2 = new Pet(null, "Hana", s1, rac2, 5);
+        Pet pet3 = new Pet(null, "Mewth", s2, rac3, 8);
+
+        especieRepository.saveAll(Arrays.asList(s1, s2));
+        racaRepository.saveAll(Arrays.asList(rac1, rac2, rac3));
+        petRepository.saveAll(Arrays.asList(pet1, pet2, pet3));
     }
 }
