@@ -26,6 +26,12 @@ public class PopulaDados {
     @Autowired
     private EspecieRepository especieRepository;
 
+    @Autowired
+    private EstadoRepository estadoRepository;
+
+    @Autowired
+    private CidadeRepository cidadeRepository;
+
     @PostConstruct
     public void cadastrar() {
         Categoria c1 = new Categoria(null, "Alimento");
@@ -63,5 +69,17 @@ public class PopulaDados {
         especieRepository.saveAll(Arrays.asList(s1, s2));
         racaRepository.saveAll(Arrays.asList(rac1, rac2, rac3));
         petRepository.saveAll(Arrays.asList(pet1, pet2, pet3));
+
+        Estado est1 = new Estado(null, "MG");
+        Estado est2 = new Estado(null, "SP");
+
+        Cidade cid1 = new Cidade(null, "Belo Horizonte", est1);
+        Cidade cid2 = new Cidade(null, "São Paulo", est2);
+
+        est1.getCidadeList().add(cid1);
+        est2.getCidadeList().add(cid2);
+
+        estadoRepository.saveAll(Arrays.asList(est1, est2));
+        cidadeRepository.saveAll(Arrays.asList(cid1, cid2));
     }
 }
