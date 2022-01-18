@@ -18,6 +18,9 @@ public class Cidade implements Serializable {
     @JoinColumn(name = "id_estado")
     private Estado estado;
 
+    @OneToMany(mappedBy = "cidade")
+    private List<Endereco> enderecoList = new ArrayList<>();
+
     public Cidade() {
     }
 
@@ -49,6 +52,14 @@ public class Cidade implements Serializable {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public List<Endereco> getEnderecoList() {
+        return enderecoList;
+    }
+
+    public void setEnderecoList(List<Endereco> enderecoList) {
+        this.enderecoList = enderecoList;
     }
 
     @Override

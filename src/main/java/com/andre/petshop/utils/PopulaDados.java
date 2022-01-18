@@ -32,6 +32,12 @@ public class PopulaDados {
     @Autowired
     private CidadeRepository cidadeRepository;
 
+    @Autowired
+    private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
     @PostConstruct
     public void cadastrar() {
         Categoria c1 = new Categoria(null, "Alimento");
@@ -81,5 +87,18 @@ public class PopulaDados {
 
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(cid1, cid2));
+
+        Cliente clt1 = new Cliente(null, "Jose", "jose@gmail.com", "111.111.111-11", "Fisica");
+        clt1.getTelefone().addAll(Arrays.asList("1111-1111", "9999-9999"));
+
+        Funcionario f1 = new Funcionario(null, "Maria", "maria@gmail.com", "222.222.222-22", "Caixa");
+        f1.getTelefone().addAll(Arrays.asList("3333-3333", "9090-0000", "9123-0932"));
+
+        Endereco end1 = new Endereco(null, "Rua Tupis", "500", "Apto 101", "Pindorama", "30111222", clt1, cid1);
+        Endereco end2 = new Endereco(null, "Av Tamoios", "100", "Casa", "Oca", "3968000", f1, cid2);
+        Endereco end3 = new Endereco(null, "Rua Aranãs", "50", "Apto 201", "Centro", "01153000", f1, cid2);
+
+        pessoaRepository.saveAll(Arrays.asList(clt1, f1));
+        enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
     }
 }
