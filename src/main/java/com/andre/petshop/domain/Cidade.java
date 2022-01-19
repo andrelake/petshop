@@ -1,5 +1,7 @@
 package com.andre.petshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class Cidade implements Serializable {
     @JoinColumn(name = "id_estado")
     private Estado estado;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cidade")
     private List<Endereco> enderecoList = new ArrayList<>();
 
