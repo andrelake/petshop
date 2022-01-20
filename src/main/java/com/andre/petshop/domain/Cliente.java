@@ -1,11 +1,17 @@
 package com.andre.petshop.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cliente extends Pessoa{
 
     private String tipo;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Servico> servicoList = new ArrayList<>();
 
     public Cliente() {
     }
@@ -21,5 +27,13 @@ public class Cliente extends Pessoa{
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public List<Servico> getServicoList() {
+        return servicoList;
+    }
+
+    public void setServicoList(List<Servico> servicoList) {
+        this.servicoList = servicoList;
     }
 }

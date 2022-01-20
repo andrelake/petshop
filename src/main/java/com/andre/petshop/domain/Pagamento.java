@@ -8,12 +8,12 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pagamento implements Serializable {
+public abstract class Pagamento implements Serializable {
 
     @Id
     private Integer id;
     private Double valor;
-    private SituacaoPagamentoEnum situacao;
+    private Integer situacao;
 
     @OneToOne
     @JoinColumn(name = "id_servico")
@@ -26,7 +26,7 @@ public class Pagamento implements Serializable {
     public Pagamento(Integer id, Double valor, SituacaoPagamentoEnum situacao, Servico servico) {
         this.id = id;
         this.valor = valor;
-        this.situacao = situacao;
+        this.situacao = situacao.getId();
         this.servico = servico;
     }
 
@@ -47,11 +47,11 @@ public class Pagamento implements Serializable {
     }
 
     public SituacaoPagamentoEnum getSituacao() {
-        return situacao;
+        return SituacaoPagamentoEnum.toEnum(situacao);
     }
 
     public void setSituacao(SituacaoPagamentoEnum situacao) {
-        this.situacao = situacao;
+        this.situacao = situacao.getId();
     }
 
     public Servico getServico() {

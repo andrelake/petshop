@@ -1,11 +1,14 @@
 package com.andre.petshop.utils;
 
 import com.andre.petshop.domain.*;
+import com.andre.petshop.domain.enums.SituacaoPagamentoEnum;
 import com.andre.petshop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @Component
@@ -38,8 +41,14 @@ public class PopulaDados {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
+    @Autowired
+    private ServicoRepository servicoRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
+
     @PostConstruct
-    public void cadastrar() {
+    public void cadastrar() throws ParseException {
         Categoria c1 = new Categoria(null, "Alimento");
         Categoria c2 = new Categoria(null, "Remédio");
         Categoria c3 = new Categoria(null, "Cosmético");
@@ -89,10 +98,14 @@ public class PopulaDados {
         cidadeRepository.saveAll(Arrays.asList(cid1, cid2));
 
         Cliente clt1 = new Cliente(null, "Jose", "jose@gmail.com", "111.111.111-11", "Fisica");
+        Cliente clt2 = new Cliente(null, "Pedro", "pedro@gmail.com", "333.333.111-11", "Fisica");
         clt1.getTelefone().addAll(Arrays.asList("1111-1111", "9999-9999"));
+        clt2.getTelefone().addAll(Arrays.asList("9911-1111", "9999-1111"));
 
         Funcionario f1 = new Funcionario(null, "Maria", "maria@gmail.com", "222.222.222-22", "Caixa");
-        f1.getTelefone().addAll(Arrays.asList("3333-3333", "9090-0000", "9123-0932"));
+        Funcionario f2 = new Funcionario(null, "Ana", "ana@gmail.com", "444.222.444-22", "Operacional");
+        f1.getTelefone().addAll(Arrays.asList("3223-3311", "9090-0123", "9123-0932"));
+        f2.getTelefone().addAll(Arrays.asList("3113-3999", "9090-0333", "9123-0932"));
 
         Endereco end1 = new Endereco(null, "Rua Tupis", "500", "Apto 101", "Pindorama", "30111222", clt1, cid1);
         Endereco end2 = new Endereco(null, "Av Tamoios", "100", "Casa", "Oca", "3968000", f1, cid2);
@@ -100,5 +113,25 @@ public class PopulaDados {
 
         pessoaRepository.saveAll(Arrays.asList(clt1, f1));
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Servico sv1 = new Servico(
+                null, sdf.parse("02/09/2021 09:00"), sdf.parse("02/09/2021 12:00"), "Tosa", clt1, f1);
+        Servico sv2 = new Servico(
+                null, sdf.parse("02/09/2021 14:00"), sdf.parse("03/09/2021 15:00"), "Banho", clt1, f1);
+//        Servico sv3 = new Servico(
+//                null, sdf.parse("03/09/2021 10:00"), sdf.parse("02/09/2021 12:00"), "Vermifugação", clt1, f2);
+
+        Pagamento pg1 = new PagCartao(null, 60.00, SituacaoPagamentoEnum.QUITADO, sv2, 1);
+        sv2.setPagamento(pg1);
+        Pagamento pg2 = new PagDinheiro(null, 100.00, SituacaoPagamentoEnum.PENDENTE, sv1, sdf.parse("02/09/2021 09:00"), 0.0);
+        sv1.setPagamento(pg2);
+
+        clt1.getServicoList().addAll(Arrays.asList(sv1, sv2));
+        f1.getServicoList().addAll(Arrays.asList(sv1, sv2));
+
+        servicoRepository.saveAll(Arrays.asList(sv1, sv2));
+        pagamentoRepository.saveAll(Arrays.asList(pg1, pg2));
     }
 }
