@@ -1,6 +1,7 @@
 package com.andre.petshop.domain;
 
 import com.andre.petshop.domain.enums.SituacaoPagamentoEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public abstract class Pagamento implements Serializable {
     private Double valor;
     private Integer situacao;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "id_servico")
     @MapsId

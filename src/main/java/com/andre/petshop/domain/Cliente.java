@@ -1,5 +1,7 @@
 package com.andre.petshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ public class Cliente extends Pessoa{
 
     private String tipo;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Servico> servicoList = new ArrayList<>();
 
