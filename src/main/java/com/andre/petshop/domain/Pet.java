@@ -23,6 +23,9 @@ public class Pet implements Serializable {
     @JoinColumn(name = "id_raca")
     private Raca raca;
 
+    @OneToMany(mappedBy = "pet")
+    private List<Servico> servicoList = new ArrayList<>();
+
     public Pet() {
     }
 

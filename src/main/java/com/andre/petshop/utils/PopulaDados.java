@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class PopulaDados {
@@ -111,27 +112,32 @@ public class PopulaDados {
         Endereco end2 = new Endereco(null, "Av Tamoios", "100", "Casa", "Oca", "3968000", f1, cid2);
         Endereco end3 = new Endereco(null, "Rua Aranãs", "50", "Apto 201", "Centro", "01153000", f1, cid2);
 
-        pessoaRepository.saveAll(Arrays.asList(clt1, f1));
+        pessoaRepository.saveAll(Arrays.asList(clt1, clt2, f1, f2));
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Servico sv1 = new Servico(
-                null, sdf.parse("02/09/2021 09:00"), sdf.parse("02/09/2021 12:00"), "Tosa", clt1, f1);
+                null, sdf.parse("02/09/2021 09:00"), sdf.parse("02/09/2021 12:00"), "Tosa", clt1, f1, pet1);
         Servico sv2 = new Servico(
-                null, sdf.parse("02/09/2021 14:00"), sdf.parse("03/09/2021 15:00"), "Banho", clt1, f1);
-//        Servico sv3 = new Servico(
-//                null, sdf.parse("03/09/2021 10:00"), sdf.parse("02/09/2021 12:00"), "Vermifugação", clt1, f2);
+                null, sdf.parse("03/09/2021 12:00"), sdf.parse("04/09/2021 12:00"), "Hotel", clt1, f1, pet2);
+        Servico sv3 = new Servico(
+                null, sdf.parse("05/09/2021 15:00"), sdf.parse("05/09/2021 16:00"), "Vermifugação", clt1, f2, pet3);
 
         Pagamento pg1 = new PagCartao(null, 60.00, SituacaoPagamentoEnum.QUITADO, sv2, 1);
         sv2.setPagamento(pg1);
         Pagamento pg2 = new PagDinheiro(null, 100.00, SituacaoPagamentoEnum.PENDENTE, sv1, sdf.parse("02/09/2021 09:00"), 0.0);
         sv1.setPagamento(pg2);
+        Pagamento pg3 = new PagDinheiro(null, 100.00, SituacaoPagamentoEnum.QUITADO, sv3, sdf.parse("05/09/2021 16:00"), 0.0);
+        sv3.setPagamento(pg3);
 
         clt1.getServicoList().addAll(Arrays.asList(sv1, sv2));
         f1.getServicoList().addAll(Arrays.asList(sv1, sv2));
 
-        servicoRepository.saveAll(Arrays.asList(sv1, sv2));
-        pagamentoRepository.saveAll(Arrays.asList(pg1, pg2));
+        sv2.getProdutoList().addAll(Arrays.asList(p1, p2, p4));
+        sv3.getProdutoList().addAll(List.of(p3));
+
+        servicoRepository.saveAll(Arrays.asList(sv1, sv2, sv3));
+        pagamentoRepository.saveAll(Arrays.asList(pg1, pg2, pg3));
     }
 }
