@@ -16,6 +16,7 @@ public class CategoriaResource {
     @Autowired
     private CategoriaService categoriaService;
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
         Categoria categoria = categoriaService.findById(id);

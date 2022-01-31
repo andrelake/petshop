@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ServicoService {
 
@@ -18,6 +20,10 @@ public class ServicoService {
         return servicoRepository.findById(id)
                 .orElseThrow(() -> new ObjetoNaoEncontradoException("Serviço não encontrado. ID: "
                         + id + ". Tipo: " + Servico.class.getName()));
+    }
+
+    public List<Servico> findAll() {
+        return servicoRepository.findAll();
     }
 
     public Servico insert(Servico obj) {
